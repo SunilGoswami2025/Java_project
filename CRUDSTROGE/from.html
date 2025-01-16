@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="user_form">
+        <input type="text" id="name" placeholder="ENTER THE NAME"
+        <br><br><br>
+        <input type="PASSWORD" id="password" placeholder="ENTER THE PASSWORD"
+        <br><br><br>
+        <button type="submit">submit</button>
+    </form>
+    <br><br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>sr no</th>
+                <th>name</th>
+                <th>password</th>
+                 </tr>
+        </thead>
+        <tbody id="tabledata">
+
+        </tbody>
+    </table>
+    
+</body>
+</html>
+<script>
+    document.getElementById("user_form").addEventListener("submit",(event) => {
+        event.preventDefault();
+
+       let name = document.getElementById("name").value
+       let password = document.getElementById("password").value
+       //console.log(name,password);
+
+       let obj ={
+        n : name,
+        p : password
+       }
+
+       let arr = JSON.parse(localStorage.getItem("data")||"[]")
+       arr.push(obj);
+
+       localStorage.setItem("data",JSON.stringify(arr));
+
+  event.target.reset();
+
+    });
+
+    const updatetable = () => {
+    let data = JSON.parse(localStorage.getItem("data"));
+    console.log(data);
+
+    let datatable = document.getElementById("tabledata");
+
+let tr = ""
+data.map((ele , index) => {
+    tr +=
+        `<tr>
+            <td>${index+1}</td>
+            <td>${ele.n}</td>
+            <td>${ele.p}</td>
+            <td><button>edit</button></td><td><button>delet</button></td>
+            </tr>`
+
+datatable.innerHTML = tr;
+            
+})};
+
+updatetable();
+
+
+</script>
