@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        #card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #card div {
+            background-color: #fff;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            width: 280px;
+            text-align: left;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #card div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        #card div p {
+            margin: 10px 15px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        #card div p.title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #222;
+            margin-bottom: 5px;
+        }
+
+        #card div p.price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #card div p.description {
+            overflow: hidden;
+        }
+
+        #card div p.small-text {
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="card"></div>
+</body>
+</html>
+<script>
+    fetch("https://fakestoreapi.in/api/products")
+    .then((res) => res.json())
+    .then((data)=> {
+    console.log(data.products);
+    let create = ""
+    data.products.map((ele ,index) => {
+        create +=`
+                    <div>
+                        <img src="${ele.image}" alt="${ele.title}" />
+                        <p class="title">${ele.title}</p>
+                        <p class="price">${ele.price}</p>
+                        <p class="description">${ele.description}</p>
+                        <p class="small-text">Category: ${ele.category}</p>
+                        <p class="small-text">Brand: ${ele.brand}</p>
+                        <p class="small-text">Model: ${ele.model}</p>
+                        <p class="small-text">Color: ${ele.color}</p>
+                        <p class="small-text">Discount: ${ele.discount}%</p>
+                    </div>
+        `
+    })
+
+    document.getElementById("card").innerHTML = create
+
+})
+    .catch((err)=> console.log(err))
+</script>

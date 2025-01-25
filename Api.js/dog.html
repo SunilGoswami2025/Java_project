@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(124, 113, 97);
+            margin: 0;
+            padding: 5px;
+        }
+        #img{
+            height: 500px;
+            width: 500px;
+            
+        }
+        #img img{
+            height: 500px;
+            width: 500px;
+            border-radius: 15%;
+            border: 2px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="img">
+        <img src="https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y3V0ZSUyMGRvZ3xlbnwwfHwwfHx8MA%3D%3D" id="dog_img" alt="">
+    </div>
+
+    <br></br>
+
+    <button id="btn">Change Image</button>
+    
+</body>
+</html>
+<script>
+     document.getElementById("btn").addEventListener("click", () => {
+    fetch("https://dog.ceo/api/breeds/image/random")
+.then((res)=> res.json())
+.then((data) => {
+     console.log(data.message)
+    let img = document.getElementById("dog_img")
+    img.src = data.message
+})
+.catch((Err) =>console.log(Err))
+})
+
+</script>
