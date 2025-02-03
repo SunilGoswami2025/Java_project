@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #333;
+      }
+
+      #produtcs {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+        width: 100%;
+      }
+
+      .produtcs {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Ensures elements are spaced evenly */
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%; /* Ensures consistent height */
+      }
+
+      .produtcs:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .produtcs img {
+        width: 100%;
+        height: auto;
+        max-height: 250px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        position: relative;
+      }
+
+      .produtcs p {
+        margin: 15px 0;
+        font-size: 1.2rem;
+        color: #555;
+      }
+
+      .add_to_cart {
+        margin-top: auto;
+        background-color:#fb6f92;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%; 
+      }
+
+      .add_to_cart:hover {
+        background-color:#a2d2ff;
+      }
+
+      .product_list {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 30px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .product_list ul {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+
+      .product_list ul li {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .product_list ul li img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+      }
+
+      .product_list ul li span {
+        font-size: 1rem;
+        color: #555;
+      }
+
+      .product_list p {
+        font-size: 1.2rem;
+        color: #333;
+        font-weight: bold;
+      }
+
+      #total_price {
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PRODUCTS</h1>
+    <div id="produtcs">
+      <!-- <div>
+            <img src="" alt="">
+            <p>Name</p>
+            <p>price</p>
+            <button>ADD TO CART</button>
+        </div> -->
+    </div>
+    <div class="product_list">
+      <ul id="product_item">
+        <!-- <li><img src="" alt=""><span></span></li> -->
+      </ul>
+      <p>Total price : <span id="total_price"></span></p>
+    </div>
+  </body>
+</html>
+<script>
+  let cartitem = [];
+  let totalprice = 0;
+  let produtcitem = [
+    {
+      name: "Phone",
+      price: 452,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691075065521-galaxy M13.jpg",
+    },
+    {
+      name: "TV",
+      price: 785,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1694240302644-81t+PmgnnDL.SL1500.jpg",
+    },
+    {
+      name: "Chips",
+      price: 852,
+      image:
+        "https://cdn.pixabay.com/photo/2020/03/06/16/16/cornflakes-4907490_1280.jpg",
+    },
+    {
+      name: "Oneplus",
+      price: 785,
+      image:
+        "https://rukminim2.flixcart.com/image/850/1000/xif0q/mobile/g/w/k/12r-cph2585-oneplus-original-imah3yc3zzqzbfyv.jpeg?q=20&crop=false",
+    },
+    {
+      name: "Ladisewear",
+      price: 412,
+      image:
+        "https://cdn.shopify.com/s/files/1/0604/0040/2685/products/vck1534_8_533x.jpg?v=1638482837",
+    },
+    {
+      name: "I-phone",
+      price: 456,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691076020478-iPhone 14 pro.jpg",
+    },
+    {
+      name: "Pokect",
+      price: 78,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHq62bkxBhAWYitLM8gd7VWugf9qqPLVgdjQ&s",
+    },
+    {
+      name: "Bag",
+      price: 452,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRatfEFpvU5eYyU2O_aIlSPYoWjKyBfC98xJQ&s",
+    },
+    {
+      name: "Headsphone",
+      price: 485,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692947383286-714WUJlhbLS.SL1500.jpg",
+    },
+    {
+      name: "Games",
+      price: 456,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692255251854-xbox.jpg",
+    },
+    {
+      name: "Headsphone",
+      price: 742,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692257709689-logitech heaphone.jpg",
+    },
+    {
+      name: "Headsphone",
+      price: 562,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1692941008275-headphone3.jpg",
+    },
+    {
+      name: "Headsphone",
+      price: 523,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691057718636-headphone5.jpg",
+    },
+    {
+      name: "Sumsung phone",
+      price: 236,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691075307831-galaxy M14 5G.jpg",
+    },
+    {
+      name: "Toys",
+      price: 859,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwpz5oQH8gstqMu1Y5COZ1X7fubHWxMqUobg&s",
+    },
+    {
+      name: "Tv",
+      price: 123,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1694156194279-817zvskL7DL.SL1500.jpg",
+    },
+    {
+      name: "Teaddy",
+      price: 452,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb-Mm7g03HlgliykIWKFMHjGX0Cryk4QdOJg&s",
+    },
+    {
+      name: "",
+      price: 562,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1694157446606-91UIOlIz-fL.SL1500.jpg",
+    },
+    {
+      name: "Products18",
+      price: 459,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1694158891712-913RqBlzXmL.SL1500.jpg",
+    },
+    {
+      name: "Products19",
+      price: 123,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691074776147-galaxy S22 ultra 5G.jpg",
+    },
+    {
+      name: "Products20",
+      price: 459,
+      image:
+        "https://storage.googleapis.com/fir-auth-1c3bc.appspot.com/1691076020478-iPhone 14 pro.jpg",
+    },
+    {
+      name: "Products20",
+      price: 120,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT41QJLf1ziXRt7Bqwkvi1QOgQ6K998aBnTuQ&s",
+    },
+    {
+      name: "Products20",
+      price: 125,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFgkHdUGhZ0sWhPH0wcsVfO0YBtKi94danEA&s",
+    },
+    {
+      name: "Products20",
+      price: 457,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKhTVIU0WTQt2inU584_MIj7gbBRL2hreucQ&s",
+    },
+    {
+      name: "Products20",
+      price: 562,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2KaWg5CXUcmnYhPDfy-BR_XQJB--3MrjYDg&s",
+    },
+  ];
+
+  let productslist = document.getElementById("produtcs");
+
+  produtcitem.map((product, index) => {
+    // console.log(product)
+    let productContainer = document.createElement("div");
+    productContainer.classList.add("produtcs");
+    productContainer.innerHTML = `
+            <img src = "${product.image}" alt = "${product.name}"width = "140px"/>
+            <p>${product.name}</p>
+            <p>$  ${product.price}</p>
+            <button class="add_to_cart">ADD TO CART</button>`;
+    productslist.appendChild(productContainer);
+
+    let addtocartbutton = document.querySelectorAll(".add_to_cart");
+    // console.log(addtocartbutton);
+    addtocartbutton[index].addEventListener("click", () => {
+      cartitem.push({
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+      console.log(cartitem);
+
+      totalprice += product.price;
+      updatecart();
+    });
+  });
+
+  const updatecart = () => {
+    let product_items = document.getElementById("product_item");
+    let totalprices = document.getElementById("total_price");
+
+    product_items.innerHTML = "";
+
+    cartitem.forEach((item, index) => {
+      let li = document.createElement("li");
+
+      let img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.name;
+      img.style.width = "100px";
+
+      li.appendChild(img);
+
+      let br = document.createElement("br");
+      li.appendChild(br);
+
+      let text = document.createElement("span");
+      text.innerHTML = Product Name : ${item.name} - Product price : ${item.price};
+
+      li.appendChild(text);
+
+      product_items.appendChild(li);
+    });
+    totalprices.innerHTML = totalprice;
+  };
+  
+  updatecart();
+</script>
